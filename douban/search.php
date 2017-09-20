@@ -49,6 +49,7 @@ try {
     //echo $e->getMessage();
 
     echo json_encode(['code' => $e->getCode(), 'message' => $e->getMessage()], JSON_UNESCAPED_UNICODE);
+    die;
 }
 
 $data = [
