@@ -1,0 +1,6 @@
+{
+    "require": {
+        "illuminate/database": "~4.2",
+        "elasticsearch/elasticsearch": "~5.0"
+    }
+}
