@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"> 
+        <title>Bootstrap 实例 - 分页的大小</title>
+        <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">  
+        <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <form role="form">
+            <div class="form-group">
+                <label for="name">名称</label>
+                <input type="text" class="form-control" id="name" placeholder="请输入名称">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+        </form>
+
+        <ul class="pagination pagination-lg">
+            <li><a href="#">&laquo;</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">&raquo;</a></li>
+        </ul><br>
+    </body>
+    <script>
+        $(document).ready(function(){
+            $("button").click(function(){
+                var book_name = $('#name').val();
+                $.post("../search.php", {book_name:book_name},
+                function (data, status) {
+                    console.log(data);
+                });
+            });
+        });
+    </script>
+</html>
