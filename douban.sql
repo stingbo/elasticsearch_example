@@ -33,7 +33,7 @@ CREATE TABLE `dd_book` (
   `book_date` varchar(8) DEFAULT '' COMMENT '出版日期',
   `book_price` varchar(8) DEFAULT '' COMMENT '价格',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=975 DEFAULT CHARSET=utf8 COMMENT='书籍表';
+) ENGINE=InnoDB AUTO_INCREMENT=975 DEFAULT CHARSET=utf8 COMMENT='书籍表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
