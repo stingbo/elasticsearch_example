@@ -2,7 +2,12 @@
 
 * Html+jquery+bootstrap+PHP+Elasticsearch中文分词搜索显示的示例。
 
-* [相关项目信息地址]()
+* [相关项目信息地址](http://wp.me/p87BY0-NB)
+
+***
+
+图示：
+![elasticsearch搜索显示示例图片](http://blog.blianb.com/wp-content/uploads/2017/09/elasticsearch_demo.png)
 
 ***
 
