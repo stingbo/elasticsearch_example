@@ -8,33 +8,115 @@
         <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <form role="form">
-            <div class="form-group">
-                <label for="name">名称</label>
-                <input type="text" class="form-control" id="name" placeholder="请输入名称">
+        <div class="container">
+            <div class="row">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="content">请输入关键词</label>
+                        <input type="text" class="form-control" id="content" placeholder="请输入关键词">
+                    </div>
+                    <button type="submit" class="btn btn-default">搜索</button>
+                </form>
             </div>
-            <button type="submit" class="btn btn-default">搜索</button>
-        </form>
 
-        <ul class="pagination pagination-lg">
-            <li><a href="#">&laquo;</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&raquo;</a></li>
-        </ul><br>
+            <div class="row book_detail">
+            </div>
+
+            <div class="row">
+                <ul class="pager">
+                    <!--<li class="previous disabled"><a href="#">&larr; Older</a></li>-->
+                    <!--<li class="next"><a href="#">Newer &rarr;</a></li>-->
+                </ul>
+            </div>
+        </div>
     </body>
     <script>
         $(document).ready(function(){
             $("button").click(function(){
-                var book_name = $('#name').val();
-                $.post("../search.php", {book_name:book_name},
-                function (data, status) {
-                    console.log(data);
-                });
+                search(1);
             });
+
+            $(".pager").delegate(".previous", "click", function(){
+                var page = $('#page').html() - 1;
+                var page_size = parseInt($('#page_size').html());
+                if (page < 1) {
+                    return false;
+                } else if (page >= 1) {
+                    search(page);
+                }
+            });
+            $(".pager").delegate(".next", "click", function(){
+                var page = parseInt($('#page').html()) + 1;
+                var page_size = parseInt($('#page_size').html());
+                if (page > page_size) {
+                    return false;
+                } else if (page <= page_size) {
+                    search(page);
+                }
+            });
+
+            var search = function (page) {
+                // 封装请求参数
+                var param = {};
+                // 书名
+                param.content = $('#content').val();
+                // 当前页码
+                param.page = page;
+                //console.log(param);
+
+                $.ajax({
+                    type: "GET",
+                    url: "../search.php",
+                    cache: false,  //禁用缓存
+                    data: param,  //传入组装的参数
+                    dataType: "json",
+                    success: function (result) {
+                        console.log(result);
+                        $('.book_detail').empty();
+                        $('.pager').empty();
+                        var html = '';
+                        var pagination = '';
+                        if (200 == result.code) {
+                            if (result.total > 0) {
+                                $.each(result.data, function(key, value){
+                                    var book = value._source;
+                                    var highlight = value.highlight;
+                                    if (highlight.book_name) {
+                                        html += '<h4>' + highlight.book_name + '</h4>';
+                                    } else {
+                                        html += '<h4>' + book.book_name + '</h4>';
+                                    }
+                                    html += '<ul>';
+                                    html += '<li> 作者：' + book.book_author + '</li>';
+                                    html += '<li> 评分：' + book.book_star + '</li>';
+                                    html += '<li> 评价量：' + book.book_pl + '</li>';
+                                    if (highlight.book_desc) {
+                                        html += '<li> 概述：' + highlight.book_desc + '</li>';
+                                    } else {
+                                        html += '<li> 概述：' + book.book_desc + '</li>';
+                                    }
+                                    html += '<li> 出版商：' + book.book_publish + '</li>';
+                                    html += '<li> 出版日期：' + book.book_date + '</li>';
+                                    html += '</ul>';
+                                })
+                                html += '<h4>共<span id="total">' + result.total + '</span>条数据，共<span id="page_size">' + result.page_size + '</span>页，当前是第<span id="page">' + result.page + '</span>页</h4>';
+
+                                if (result.page_size > 1) {
+                                    pagination += '<li class="previous"><a href="#">&larr; Older</a></li>';
+                                    pagination += '<li class="next"><a href="#">Newer &rarr;</a></li>';
+                                }
+                            } else {
+                                html += '<h4>暂无相关信息!</h4>';
+                            }
+
+                            $('.book_detail').append(html);
+                            $('.pager').append(pagination);
+                        } else {
+                            alert(result.message);
+                        }
+                    }
+                });
+            }
         });
     </script>
 </html>

@@ -5,9 +5,9 @@ require __DIR__ . '/../start.php';
 use Elasticsearch\ClientBuilder;
 
 $client = ClientBuilder::create()->build();
-$book_name = isset($_POST['book_name']) ? $_POST['book_name'] : '白夜行';
-$page = isset($_POST['page']) && $_POST['page'] > 1 ? $_POST['page'] : 1;
-$pre_page = 2;
+$content = isset($_GET['content']) ? $_GET['content'] : '白夜行';
+$page = isset($_GET['page']) && $_GET['page'] > 1 ? $_GET['page'] : 1;
+$pre_page = 3;
 $from = ($page - 1) * $pre_page;
 
 $params = [
@@ -21,21 +21,28 @@ $params = [
     'from' => $from,
     'body' => [
         'query' => [
-            'match' => [
-                'book_name' => $book_name,
+            'bool' => [
+                // 类化sql的and
+                //'must' => [
+                // 类化sql的or
+                'should' => [
+                    ['match' => ['book_name' => $content]],
+                    ['match' => ['book_desc' => $content]]
+                ]
             ]
         ],
         'highlight' => [
             'pre_tags' => [
-                '<tag1>',
-                '<tag2>',
+                '<b><font color="#FF0000">',
+                '<strong>',
             ],
             'post_tags' => [
-                '</tag1>',
-                '</tag2>',
+                '</font></b>',
+                '</strong>',
             ],
             'fields' => [
-                'book_name' => new \stdClass()
+                'book_name' => new \stdClass(),
+                'book_desc' => new \stdClass(),
             ]
         ]
     ]
