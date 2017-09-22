@@ -16,10 +16,19 @@ class Import extends Eloquent
 
     public $timestamps = false;
 
-    public function importBookData()
+    public function importBookData($chunk = 1000)
     {
         $books = json_decode(file_get_contents($this->filePath), true);
-        DB::table('book')->insert($books);
+        if (is_array($books) && count($books) > $chunk) {
+            $books = array_chunk($books, $chunk);
+            foreach ($books as $book) {
+                DB::table('book')->insert($books);
+            }
+        } elseif (is_array($books) && count($books) <= $chunk) {
+            DB::table('book')->insert($books);
+        } else {
+            echo '格式不正确';
+        }
     }
 
 }

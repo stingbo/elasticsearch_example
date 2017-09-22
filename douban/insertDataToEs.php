@@ -17,7 +17,7 @@ class Book extends Eloquent
 
 $bookModel = new Book;
 $count = $bookModel::count();
-$preNums = 100;
+$preNums = 1000;
 $loopNums = ceil($count / $preNums);
 
 // es client
