@@ -21,7 +21,7 @@
 
 -------------
 
-> items.json  使用Python爬虫获取的豆瓣读书目录下的一些信息，JSON格式
+> items.json  使用Python爬虫获取的豆瓣读书目录下的一些信息，JSON格式。此文件已从版本库里去掉，[文件已共享](https://pan.baidu.com/s/1qXMuNA8)
 
 -------------
 
@@ -29,7 +29,7 @@
 
 -------------
 
-> douban.sql 爬取的数据导入MySQL后，导出的SQL数据。觉得自己学习爬数据麻烦的同学，可以直接把数据导入MySQL。
+> douban.sql 爬取的数据导入MySQL后，导出的__小部分SQL数据__。觉得自己学习爬数据麻烦的同学，可以直接把数据导入MySQL。觉得数据太少的同学可以下载上面的json文件自己使用下面的脚本导入数据库，再从数据库导入ElasticSearch。
 
 -------------
 
@@ -49,7 +49,7 @@
 
 > search.php 根据条件查询数据，命令：`php search.php`
 
-> delete.php 删除elasticsearch index，命令：`php delete.php`
+> delete.php 删除elasticsearch index或者document，命令：`php delete.php`
 
 ***
 
@@ -63,3 +63,5 @@
 
 >> view 前端模版文件目录
 >>> index.html 搜索显示页面，使用ajax分页和向后端传递数据
+
+###### 在自己本地测试访问地址:`localhost/项目路径/elasticsearch_example/douban/view/index.html`
