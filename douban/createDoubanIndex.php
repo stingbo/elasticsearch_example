@@ -54,6 +54,6 @@ $params = [
         ]
     ]
 ];
-
+// 在终端查看所有index命令:curl -X GET 'http://localhost:9200/_cat/indices?v'
 $response = $client->indices()->create($params);
 print_r($response);

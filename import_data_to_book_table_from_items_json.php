@@ -22,7 +22,7 @@ class Import extends Eloquent
         if (is_array($books) && count($books) > $chunk) {
             $books = array_chunk($books, $chunk);
             foreach ($books as $book) {
-                DB::table('book')->insert($books);
+                DB::table('book')->insert($book);
             }
         } elseif (is_array($books) && count($books) <= $chunk) {
             DB::table('book')->insert($books);
